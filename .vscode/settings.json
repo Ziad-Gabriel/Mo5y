@@ -1,0 +1,11 @@
+{
+    "cSpell.words": [
+        "allprojects",
+        "Backlink",
+        "javafx",
+        "jvmargs",
+        "Metaspace"
+    ],
+    "cmake.ignoreCMakeListsMissing": true,
+    "java.configuration.updateBuildConfiguration": "automatic"
+}
