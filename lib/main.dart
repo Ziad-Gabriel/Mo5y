@@ -3,7 +3,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:isar/isar.dart';
 import 'package:mo5y/core/models/note_model.dart';
-import 'package:mo5y/core/models/profile_model.dart';
 import 'package:mo5y/core/models/project_model.dart';
 import 'package:mo5y/core/models/task_model.dart';
 import 'package:mo5y/core/models/transaction_model.dart';
@@ -15,7 +14,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final dir = await getApplicationDocumentsDirectory();
   final isar = await Isar.open([
-    ProfileModelSchema,
     ProjectModelSchema,
     TaskModelSchema,
     NoteModelSchema,

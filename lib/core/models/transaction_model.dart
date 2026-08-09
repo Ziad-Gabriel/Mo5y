@@ -1,5 +1,4 @@
 import 'package:isar/isar.dart';
-import 'package:mo5y/core/models/profile_model.dart';
 import 'package:mo5y/core/models/transaction_category_model.dart';
 
 part 'transaction_model.g.dart';
@@ -18,5 +17,4 @@ class TransactionModel {
   @enumerated
   late TransactionCategory category;
 
-  final profile = IsarLink<ProfileModel>();
 }

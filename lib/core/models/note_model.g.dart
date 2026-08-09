@@ -45,12 +45,6 @@ const NoteModelSchema = CollectionSchema(
       name: r'project',
       target: r'ProjectModel',
       single: true,
-    ),
-    r'profile': LinkSchema(
-      id: 5331686707179800513,
-      name: r'profile',
-      target: r'ProfileModel',
-      single: true,
     )
   },
   embeddedSchemas: {},
@@ -84,7 +78,12 @@ int _noteModelEstimateSize(
       }
     }
   }
-  bytesCount += 3 + object.title.length * 3;
+  {
+    final value = object.title;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -109,7 +108,7 @@ NoteModel _noteModelDeserialize(
   object.description = reader.readStringOrNull(offsets[0]);
   object.id = id;
   object.images = reader.readStringList(offsets[1]);
-  object.title = reader.readString(offsets[2]);
+  object.title = reader.readStringOrNull(offsets[2]);
   return object;
 }
 
@@ -125,7 +124,7 @@ P _noteModelDeserializeProp<P>(
     case 1:
       return (reader.readStringList(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -136,15 +135,13 @@ Id _noteModelGetId(NoteModel object) {
 }
 
 List<IsarLinkBase<dynamic>> _noteModelGetLinks(NoteModel object) {
-  return [object.project, object.profile];
+  return [object.project];
 }
 
 void _noteModelAttach(IsarCollection<dynamic> col, Id id, NoteModel object) {
   object.id = id;
   object.project
       .attach(col, col.isar.collection<ProjectModel>(), r'project', id);
-  object.profile
-      .attach(col, col.isar.collection<ProfileModel>(), r'profile', id);
 }
 
 extension NoteModelQueryWhereSort
@@ -669,8 +666,24 @@ extension NoteModelQueryFilter
     });
   }
 
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'title',
+      ));
+    });
+  }
+
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'title',
+      ));
+    });
+  }
+
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -683,7 +696,7 @@ extension NoteModelQueryFilter
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -698,7 +711,7 @@ extension NoteModelQueryFilter
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -713,8 +726,8 @@ extension NoteModelQueryFilter
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -815,19 +828,6 @@ extension NoteModelQueryLinks
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> projectIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'project', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> profile(
-      FilterQuery<ProfileModel> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'profile');
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> profileIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'profile', 0, true, 0, true);
     });
   }
 }
@@ -940,7 +940,7 @@ extension NoteModelQueryProperty
     });
   }
 
-  QueryBuilder<NoteModel, String, QQueryOperations> titleProperty() {
+  QueryBuilder<NoteModel, String?, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });

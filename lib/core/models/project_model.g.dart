@@ -40,12 +40,6 @@ const ProjectModelSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {
-    r'profile': LinkSchema(
-      id: -1213763848822025141,
-      name: r'profile',
-      target: r'ProfileModel',
-      single: true,
-    ),
     r'notes': LinkSchema(
       id: -3373035949462084917,
       name: r'notes',
@@ -86,7 +80,12 @@ int _projectModelEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  bytesCount += 3 + object.title.length * 3;
+  {
+    final value = object.title;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -111,7 +110,7 @@ ProjectModel _projectModelDeserialize(
   object.description = reader.readStringOrNull(offsets[0]);
   object.id = id;
   object.image = reader.readStringOrNull(offsets[1]);
-  object.title = reader.readString(offsets[2]);
+  object.title = reader.readStringOrNull(offsets[2]);
   return object;
 }
 
@@ -127,7 +126,7 @@ P _projectModelDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -138,14 +137,12 @@ Id _projectModelGetId(ProjectModel object) {
 }
 
 List<IsarLinkBase<dynamic>> _projectModelGetLinks(ProjectModel object) {
-  return [object.profile, object.notes, object.tasks];
+  return [object.notes, object.tasks];
 }
 
 void _projectModelAttach(
     IsarCollection<dynamic> col, Id id, ProjectModel object) {
   object.id = id;
-  object.profile
-      .attach(col, col.isar.collection<ProfileModel>(), r'profile', id);
   object.notes.attach(col, col.isar.collection<NoteModel>(), r'notes', id);
   object.tasks.attach(col, col.isar.collection<TaskModel>(), r'tasks', id);
 }
@@ -590,8 +587,26 @@ extension ProjectModelQueryFilter
     });
   }
 
+  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+      titleIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'title',
+      ));
+    });
+  }
+
+  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
+      titleIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'title',
+      ));
+    });
+  }
+
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> titleEqualTo(
-    String value, {
+    String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -605,7 +620,7 @@ extension ProjectModelQueryFilter
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
       titleGreaterThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -620,7 +635,7 @@ extension ProjectModelQueryFilter
   }
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> titleLessThan(
-    String value, {
+    String? value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -635,8 +650,8 @@ extension ProjectModelQueryFilter
   }
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> titleBetween(
-    String lower,
-    String upper, {
+    String? lower,
+    String? upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -730,20 +745,6 @@ extension ProjectModelQueryObject
 
 extension ProjectModelQueryLinks
     on QueryBuilder<ProjectModel, ProjectModel, QFilterCondition> {
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> profile(
-      FilterQuery<ProfileModel> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'profile');
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
-      profileIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'profile', 0, true, 0, true);
-    });
-  }
-
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> notes(
       FilterQuery<NoteModel> q) {
     return QueryBuilder.apply(this, (query) {
@@ -1003,7 +1004,7 @@ extension ProjectModelQueryProperty
     });
   }
 
-  QueryBuilder<ProjectModel, String, QQueryOperations> titleProperty() {
+  QueryBuilder<ProjectModel, String?, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });

@@ -1,5 +1,4 @@
 import 'package:isar/isar.dart';
-import 'package:mo5y/core/models/profile_model.dart';
 import 'package:mo5y/core/models/project_model.dart';
 
 class ProjectService {
@@ -9,11 +8,9 @@ class ProjectService {
 
   Future<void> addProject({
     required ProjectModel project,
-    required ProfileModel profile,
   }) async {
     await isar.writeTxn(() async {
       await isar.projectModels.put(project);
-      await project.profile.save();
     });
   }
 
@@ -25,10 +22,8 @@ class ProjectService {
     await isar.writeTxn(() => isar.projectModels.delete(id));
   }
 
-  Stream<List<ProjectModel>> getAllProjects({required int profileId}) {
+  Stream<List<ProjectModel>> getAllProjects() {
     return isar.projectModels
-        .filter()
-        .profile((q) => q.idEqualTo(profileId))
-        .watch(fireImmediately: true);
+        .where().watch(fireImmediately: true);
   }
 }

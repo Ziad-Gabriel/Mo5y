@@ -50,12 +50,6 @@ const TaskModelSchema = CollectionSchema(
       name: r'project',
       target: r'ProjectModel',
       single: true,
-    ),
-    r'profile': LinkSchema(
-      id: -6104361565041142011,
-      name: r'profile',
-      target: r'ProfileModel',
-      single: true,
     )
   },
   embeddedSchemas: {},
@@ -133,15 +127,13 @@ Id _taskModelGetId(TaskModel object) {
 }
 
 List<IsarLinkBase<dynamic>> _taskModelGetLinks(TaskModel object) {
-  return [object.project, object.profile];
+  return [object.project];
 }
 
 void _taskModelAttach(IsarCollection<dynamic> col, Id id, TaskModel object) {
   object.id = id;
   object.project
       .attach(col, col.isar.collection<ProjectModel>(), r'project', id);
-  object.profile
-      .attach(col, col.isar.collection<ProfileModel>(), r'profile', id);
 }
 
 extension TaskModelQueryWhereSort
@@ -637,19 +629,6 @@ extension TaskModelQueryLinks
   QueryBuilder<TaskModel, TaskModel, QAfterFilterCondition> projectIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'project', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<TaskModel, TaskModel, QAfterFilterCondition> profile(
-      FilterQuery<ProfileModel> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'profile');
-    });
-  }
-
-  QueryBuilder<TaskModel, TaskModel, QAfterFilterCondition> profileIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'profile', 0, true, 0, true);
     });
   }
 }

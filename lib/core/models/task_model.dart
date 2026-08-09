@@ -1,5 +1,4 @@
 import 'package:isar/isar.dart';
-import 'package:mo5y/core/models/profile_model.dart';
 import 'package:mo5y/core/models/project_model.dart';
 
 part 'task_model.g.dart';
@@ -15,5 +14,4 @@ class TaskModel {
   bool isCompleted=false;
   final project = IsarLink<ProjectModel>();
 
-  final profile = IsarLink<ProfileModel>();
 }

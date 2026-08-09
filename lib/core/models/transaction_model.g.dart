@@ -55,14 +55,7 @@ const TransactionModelSchema = CollectionSchema(
   deserializeProp: _transactionModelDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {
-    r'profile': LinkSchema(
-      id: -3577962358010416018,
-      name: r'profile',
-      target: r'ProfileModel',
-      single: true,
-    )
-  },
+  links: {},
   embeddedSchemas: {},
   getId: _transactionModelGetId,
   getLinks: _transactionModelGetLinks,
@@ -173,14 +166,12 @@ Id _transactionModelGetId(TransactionModel object) {
 }
 
 List<IsarLinkBase<dynamic>> _transactionModelGetLinks(TransactionModel object) {
-  return [object.profile];
+  return [];
 }
 
 void _transactionModelAttach(
     IsarCollection<dynamic> col, Id id, TransactionModel object) {
   object.id = id;
-  object.profile
-      .attach(col, col.isar.collection<ProfileModel>(), r'profile', id);
 }
 
 extension TransactionModelQueryWhereSort
@@ -803,21 +794,7 @@ extension TransactionModelQueryObject
     on QueryBuilder<TransactionModel, TransactionModel, QFilterCondition> {}
 
 extension TransactionModelQueryLinks
-    on QueryBuilder<TransactionModel, TransactionModel, QFilterCondition> {
-  QueryBuilder<TransactionModel, TransactionModel, QAfterFilterCondition>
-      profile(FilterQuery<ProfileModel> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'profile');
-    });
-  }
-
-  QueryBuilder<TransactionModel, TransactionModel, QAfterFilterCondition>
-      profileIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'profile', 0, true, 0, true);
-    });
-  }
-}
+    on QueryBuilder<TransactionModel, TransactionModel, QFilterCondition> {}
 
 extension TransactionModelQuerySortBy
     on QueryBuilder<TransactionModel, TransactionModel, QSortBy> {
