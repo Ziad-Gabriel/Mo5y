@@ -11,6 +11,7 @@ class TaskModel {
   late String title;
   String? description;
   late DateTime endDate;
+  DateTime? completedAt;
   bool isCompleted=false;
   final project = IsarLink<ProjectModel>();
 

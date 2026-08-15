@@ -13,16 +13,9 @@ class TransactionService {
     });
   }
 
-  Future<void> updateTransaction({required TransactionModel transaction}) {
-    return isar.writeTxn(() => isar.transactionModels.put(transaction));
-  }
-
-  Future<void> deleteTransaction({required int id}) async {
-    await isar.writeTxn(() => isar.transactionModels.delete(id));
-  }
-
   Stream<List<TransactionModel>> getAllTransactions() {
     return isar.transactionModels
         .where().watch(fireImmediately: true);
   }
+  
 }

@@ -4,7 +4,9 @@
         "Backlink",
         "javafx",
         "jvmargs",
-        "Metaspace"
+        "Metaspace",
+        "prefs",
+        "spiderman"
     ],
     "cmake.ignoreCMakeListsMissing": true,
     "java.configuration.updateBuildConfiguration": "automatic"

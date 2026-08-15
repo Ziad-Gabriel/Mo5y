@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TopTaskContainer extends StatelessWidget {
-  const TopTaskContainer({super.key});
+
+  final int tasksCount;
+  const TopTaskContainer({super.key, required this.tasksCount});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class TopTaskContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '12',
+                  '$tasksCount',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),

@@ -7,24 +7,38 @@ class NoteController {
   final Isar isar;
   NoteController(this.isar);
   
-  void addNote({
-    required String title,
-    required String? note,
+  Future<bool> addNote({
+    required String? title,
+    required String? content,
     required ProjectModel? project,
-    required List<String>? images,
   }) async {
+
+    if ((title == null || title.isEmpty)&& (content == null || content.isEmpty)) {
+      return false;
+    }
+    final note= NoteModel()
+    ..title=title..content=content;
+
+
     await NoteService(isar).addNote(
-      title: title,
-      description: note,
+      note: note,
       project: project,
-      images: images,
     );
+    return true;
   }
 
-  void updateNote({
-    required NoteModel note,
+  Future<bool> updateNote({
+    required int id,
+    required String? title,
+    required String? content,
+    required ProjectModel? project
   }) async {
-    await NoteService(isar).updateNote(note: note);
+    if (title == null && content == null){
+      return false;
+    }
+    final note = NoteModel()..title=title??''..content=content??'';
+    await NoteService(isar).updateNote(note: note,project: project);
+    return true;
   }
 
   void deleteNote({

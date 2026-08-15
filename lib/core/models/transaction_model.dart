@@ -10,7 +10,6 @@ class TransactionModel {
   
   late double amount;
   late String title;
-  String? description;
   late DateTime date;
   late bool isAdd;
 

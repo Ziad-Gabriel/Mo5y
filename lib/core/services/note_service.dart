@@ -8,27 +8,38 @@ class NoteService {
   NoteService(this.isar);
 
   Future<void> addNote({
-    required String? title,
-    required String? description,
-    ProjectModel? project,
-    List<String>? images,
+    required NoteModel note,
+    required ProjectModel? project,
   }) async {
-    final note = NoteModel();
-    note.title = title;
-    note.description = description;
-    note.images = images;
     if (project != null) {
       note.project.value = project;
     }
-
     await isar.writeTxn(() async {
       await isar.noteModels.put(note);
+
       if (project != null) await note.project.save();
     });
   }
 
-  Future<void> updateNote({required NoteModel note}) {
-    return isar.writeTxn(() => isar.noteModels.put(note));
+  Future<void> updateNote({
+    required NoteModel note,
+    required ProjectModel? project,
+  }) async {
+    if (project != null) {
+      note.project.value = project;
+    }
+    await isar.writeTxn(() async {
+      if (project != null) {
+        note.project.value = project;
+      }
+      if (project != null) {
+        await note.project.save();
+        project.notes.add(note);
+        await project.notes.save();
+      }
+      isar.noteModels.put(note);
+    });
+    return;
   }
 
   Future<void> deleteNote({required int id}) async {

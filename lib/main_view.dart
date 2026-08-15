@@ -3,6 +3,7 @@ import 'package:mo5y/core/providers/main_widgets_index_provider.dart';
 import 'package:mo5y/features/home/view/home_view.dart';
 import 'package:mo5y/features/notes/view/note_view.dart';
 import 'package:mo5y/features/projects/view/projects_view.dart';
+import 'package:mo5y/features/shared/main_fab/main_fab.dart';
 import 'package:mo5y/features/shared/nav_bar/nav_container.dart';
 import 'package:mo5y/features/shared/top_bar/app_bar.dart';
 import 'package:mo5y/features/tasks/view/tasks_view.dart';
@@ -38,6 +39,7 @@ class MainView extends StatelessWidget {
           child: screens[currentIndex],
         ),
       ),
+      floatingActionButton: MainFab(),
       bottomNavigationBar: NavContainer(),
     );
   }

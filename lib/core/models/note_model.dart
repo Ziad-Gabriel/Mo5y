@@ -6,7 +6,6 @@ part 'note_model.g.dart';
 class NoteModel {
   Id id = Isar.autoIncrement;
   String? title;
-  String? description;
-  List<String>? images;
+  String? content;
   final project = IsarLink<ProjectModel>();
 }

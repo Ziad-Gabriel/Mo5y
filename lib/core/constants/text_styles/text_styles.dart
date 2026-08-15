@@ -13,8 +13,8 @@ class TextStyles {
     ),
     titleMedium: titleStyle.copyWith(fontSize: 24, fontWeight: FontWeight(600)),
     titleSmall: titleStyle.copyWith(fontSize: 20, fontWeight: FontWeight(600)),
-    bodyLarge: bodyStyle.copyWith(fontSize: 16, fontWeight: FontWeight(400)),
-    bodyMedium: bodyStyle.copyWith(fontSize: 14, fontWeight: FontWeight(400)),
+    bodyLarge: bodyStyle.copyWith(fontSize: 16, fontWeight: FontWeight(600)),
+    bodyMedium: bodyStyle.copyWith(fontSize: 14, fontWeight: FontWeight(600)),
     bodySmall: bodyStyle.copyWith(
       fontSize: 12,
       fontWeight: FontWeight(600),

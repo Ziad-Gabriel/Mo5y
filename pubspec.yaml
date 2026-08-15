@@ -1,6 +1,6 @@
 name: mo5y
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0+1
 
 environment:
@@ -9,13 +9,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_speed_dial: ^7.0.0
   google_fonts: ^8.2.1
-  init: ^1.0.0
+  image_picker: ^1.2.3
+  intl: ^0.20.3
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.1.6
   provider: ^6.1.5+1
-  speed_dial_fab: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -23,6 +24,25 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   build_runner: any
   isar_generator: ^3.1.0+1
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.8
+  shared_preferences: ^2.5.5
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/logo/mo5y_logo.png
+
+flutter_launcher_icons:
+  android: "Launcher_icon"
+  ios: true
+  image_path: "assets/logo/mo5y_logo.png"
+  # adaptive_icon_background: "#000000"
+
+flutter_native_splash:
+  color: "#121212"
+  image: assets/logo/mo5y_logo.png
+  android_12:
+    image: assets/logo/mo5y_logo.png
+    icon_background_color: "#121212"

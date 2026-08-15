@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mo5y/core/utils/date_formatter.dart';
 
 class TaskEndDate extends StatelessWidget {
-  const TaskEndDate({super.key});
+  final DateTime date;
+  const TaskEndDate({super.key,required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class TaskEndDate extends StatelessWidget {
         ),
         const SizedBox(width: 4),
         Text(
-          'Aug 5',
+          customDateFormatter(date: date),
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),

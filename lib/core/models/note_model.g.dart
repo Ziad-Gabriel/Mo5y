@@ -17,18 +17,13 @@ const NoteModelSchema = CollectionSchema(
   name: r'NoteModel',
   id: -5829966683692150002,
   properties: {
-    r'description': PropertySchema(
+    r'content': PropertySchema(
       id: 0,
-      name: r'description',
+      name: r'content',
       type: IsarType.string,
     ),
-    r'images': PropertySchema(
-      id: 1,
-      name: r'images',
-      type: IsarType.stringList,
-    ),
     r'title': PropertySchema(
-      id: 2,
+      id: 1,
       name: r'title',
       type: IsarType.string,
     )
@@ -61,21 +56,9 @@ int _noteModelEstimateSize(
 ) {
   var bytesCount = offsets.last;
   {
-    final value = object.description;
+    final value = object.content;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final list = object.images;
-    if (list != null) {
-      bytesCount += 3 + list.length * 3;
-      {
-        for (var i = 0; i < list.length; i++) {
-          final value = list[i];
-          bytesCount += value.length * 3;
-        }
-      }
     }
   }
   {
@@ -93,9 +76,8 @@ void _noteModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.description);
-  writer.writeStringList(offsets[1], object.images);
-  writer.writeString(offsets[2], object.title);
+  writer.writeString(offsets[0], object.content);
+  writer.writeString(offsets[1], object.title);
 }
 
 NoteModel _noteModelDeserialize(
@@ -105,10 +87,9 @@ NoteModel _noteModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NoteModel();
-  object.description = reader.readStringOrNull(offsets[0]);
+  object.content = reader.readStringOrNull(offsets[0]);
   object.id = id;
-  object.images = reader.readStringList(offsets[1]);
-  object.title = reader.readStringOrNull(offsets[2]);
+  object.title = reader.readStringOrNull(offsets[1]);
   return object;
 }
 
@@ -122,8 +103,6 @@ P _noteModelDeserializeProp<P>(
     case 0:
       return (reader.readStringOrNull(offset)) as P;
     case 1:
-      return (reader.readStringList(offset)) as P;
-    case 2:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -223,39 +202,36 @@ extension NoteModelQueryWhere
 
 extension NoteModelQueryFilter
     on QueryBuilder<NoteModel, NoteModel, QFilterCondition> {
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      descriptionIsNull() {
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'description',
+        property: r'content',
       ));
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      descriptionIsNotNull() {
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'description',
+        property: r'content',
       ));
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> descriptionEqualTo(
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'description',
+        property: r'content',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      descriptionGreaterThan(
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -263,14 +239,14 @@ extension NoteModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'description',
+        property: r'content',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> descriptionLessThan(
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -278,14 +254,14 @@ extension NoteModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'description',
+        property: r'content',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> descriptionBetween(
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -294,7 +270,7 @@ extension NoteModelQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'description',
+        property: r'content',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -304,72 +280,70 @@ extension NoteModelQueryFilter
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      descriptionStartsWith(
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'description',
+        property: r'content',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> descriptionEndsWith(
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'description',
+        property: r'content',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> descriptionContains(
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'description',
+        property: r'content',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> descriptionMatches(
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'description',
+        property: r'content',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      descriptionIsEmpty() {
+  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'description',
+        property: r'content',
         value: '',
       ));
     });
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      descriptionIsNotEmpty() {
+      contentIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'description',
+        property: r'content',
         value: '',
       ));
     });
@@ -425,244 +399,6 @@ extension NoteModelQueryFilter
         upper: upper,
         includeUpper: includeUpper,
       ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> imagesIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'images',
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> imagesIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'images',
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'images',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'images',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'images',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'images',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'images',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'images',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementContains(String value, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'images',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementMatches(String pattern, {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'images',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'images',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'images',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> imagesLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'images',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> imagesIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'images',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> imagesIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'images',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'images',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition>
-      imagesLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'images',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> imagesLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'images',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
     });
   }
 
@@ -833,15 +569,15 @@ extension NoteModelQueryLinks
 }
 
 extension NoteModelQuerySortBy on QueryBuilder<NoteModel, NoteModel, QSortBy> {
-  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByDescription() {
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByContent() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.asc);
+      return query.addSortBy(r'content', Sort.asc);
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByDescriptionDesc() {
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> sortByContentDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.desc);
+      return query.addSortBy(r'content', Sort.desc);
     });
   }
 
@@ -860,15 +596,15 @@ extension NoteModelQuerySortBy on QueryBuilder<NoteModel, NoteModel, QSortBy> {
 
 extension NoteModelQuerySortThenBy
     on QueryBuilder<NoteModel, NoteModel, QSortThenBy> {
-  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByDescription() {
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByContent() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.asc);
+      return query.addSortBy(r'content', Sort.asc);
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByDescriptionDesc() {
+  QueryBuilder<NoteModel, NoteModel, QAfterSortBy> thenByContentDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'description', Sort.desc);
+      return query.addSortBy(r'content', Sort.desc);
     });
   }
 
@@ -899,16 +635,10 @@ extension NoteModelQuerySortThenBy
 
 extension NoteModelQueryWhereDistinct
     on QueryBuilder<NoteModel, NoteModel, QDistinct> {
-  QueryBuilder<NoteModel, NoteModel, QDistinct> distinctByDescription(
+  QueryBuilder<NoteModel, NoteModel, QDistinct> distinctByContent(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QDistinct> distinctByImages() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'images');
+      return query.addDistinctBy(r'content', caseSensitive: caseSensitive);
     });
   }
 
@@ -928,15 +658,9 @@ extension NoteModelQueryProperty
     });
   }
 
-  QueryBuilder<NoteModel, String?, QQueryOperations> descriptionProperty() {
+  QueryBuilder<NoteModel, String?, QQueryOperations> contentProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'description');
-    });
-  }
-
-  QueryBuilder<NoteModel, List<String>?, QQueryOperations> imagesProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'images');
+      return query.addPropertyName(r'content');
     });
   }
 

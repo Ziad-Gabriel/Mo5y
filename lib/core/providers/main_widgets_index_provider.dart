@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MainWidgetsIndexProvider with ChangeNotifier {
-  int currentIndex = 0;
+  int _currentIndex = 0;
 
-  int get getCurrentIndex => currentIndex;
+  int get getCurrentIndex => _currentIndex;
 
   void setNewIndex(int newIndex) {
-    currentIndex = newIndex;
+    _currentIndex = newIndex;
     notifyListeners();
   }
 }
