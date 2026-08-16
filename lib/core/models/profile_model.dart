@@ -10,4 +10,6 @@ class ProfileModel {
   late bool isLoggedIn;
   DateTime? lastCleanUp;
   double balance = 0;
+  int tasksAdded = 0;
+  int tasksCompleted = 0;
 }

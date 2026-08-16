@@ -17,7 +17,7 @@ class NoteController {
       return false;
     }
     final note= NoteModel()
-    ..title=title..content=content;
+    ..title=title??''..content=content??'';
 
 
     await NoteService(isar).addNote(
@@ -36,7 +36,7 @@ class NoteController {
     if (title == null && content == null){
       return false;
     }
-    final note = NoteModel()..title=title??''..content=content??'';
+    final note = NoteModel()..id=id..title=title??''..content=content??'';
     await NoteService(isar).updateNote(note: note,project: project);
     return true;
   }

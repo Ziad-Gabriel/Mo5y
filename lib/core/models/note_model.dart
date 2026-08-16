@@ -5,7 +5,7 @@ part 'note_model.g.dart';
 @collection
 class NoteModel {
   Id id = Isar.autoIncrement;
-  String? title;
-  String? content;
+  late String title;
+  late String content;
   final project = IsarLink<ProjectModel>();
 }

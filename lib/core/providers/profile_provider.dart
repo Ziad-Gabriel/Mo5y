@@ -8,19 +8,20 @@ class ProfileProvider extends ChangeNotifier {
   final Isar isar;
 
   ProfileProvider(this.isar) {
-    _loadProfile();
+    loadProfile();
   }
 
   ProfileModel? _profile;
   bool _isLoading = true;
 
   ProfileModel? get profile => _profile;
+  List<int?> get getStats=>[_profile?.tasksAdded??0,_profile?.tasksCompleted??0];
   double get getBalance => _profile?.balance ?? 0;
   DateTime? get getLastCleanUp=>_profile?.lastCleanUp;
   bool get isLoading => _isLoading;
   bool get isLoggedIn => _profile?.isLoggedIn ?? false;
 
-  Future<void> _loadProfile() async {
+  Future<void> loadProfile() async {
     _profile = await isar.profileModels.where().findFirst();
     _isLoading = false;
     notifyListeners();
@@ -57,6 +58,30 @@ class ProfileProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+  Future<void> addTaskCount() async {
+    if (_profile == null) return;
+    
+      await isar.writeTxn(() async {
+        _profile!.tasksAdded ++;
+        await isar.profileModels.put(_profile!);
+      });
+   
+    notifyListeners();
+  }
+  Future<void> addCompletedCount({required bool isCompleted}) async {
+  if (_profile == null) return;
+
+  await isar.writeTxn(() async {
+    if (isCompleted) {
+      _profile!.tasksCompleted++;
+    } else {
+      _profile!.tasksCompleted--;
+    }
+    await isar.profileModels.put(_profile!);
+  });
+
+  notifyListeners();
+}
 
   Future<void> setNewCleanUp({required DateTime newDate}) async{
     await isar.writeTxn(() async {

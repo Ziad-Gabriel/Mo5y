@@ -55,18 +55,8 @@ int _noteModelEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.content;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.title;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.content.length * 3;
+  bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
 
@@ -87,9 +77,9 @@ NoteModel _noteModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = NoteModel();
-  object.content = reader.readStringOrNull(offsets[0]);
+  object.content = reader.readString(offsets[0]);
   object.id = id;
-  object.title = reader.readStringOrNull(offsets[1]);
+  object.title = reader.readString(offsets[1]);
   return object;
 }
 
@@ -101,9 +91,9 @@ P _noteModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -202,24 +192,8 @@ extension NoteModelQueryWhere
 
 extension NoteModelQueryFilter
     on QueryBuilder<NoteModel, NoteModel, QFilterCondition> {
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'content',
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'content',
-      ));
-    });
-  }
-
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -232,7 +206,7 @@ extension NoteModelQueryFilter
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -247,7 +221,7 @@ extension NoteModelQueryFilter
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -262,8 +236,8 @@ extension NoteModelQueryFilter
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> contentBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -402,24 +376,8 @@ extension NoteModelQueryFilter
     });
   }
 
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'title',
-      ));
-    });
-  }
-
-  QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'title',
-      ));
-    });
-  }
-
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -432,7 +390,7 @@ extension NoteModelQueryFilter
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -447,7 +405,7 @@ extension NoteModelQueryFilter
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -462,8 +420,8 @@ extension NoteModelQueryFilter
   }
 
   QueryBuilder<NoteModel, NoteModel, QAfterFilterCondition> titleBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -658,13 +616,13 @@ extension NoteModelQueryProperty
     });
   }
 
-  QueryBuilder<NoteModel, String?, QQueryOperations> contentProperty() {
+  QueryBuilder<NoteModel, String, QQueryOperations> contentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'content');
     });
   }
 
-  QueryBuilder<NoteModel, String?, QQueryOperations> titleProperty() {
+  QueryBuilder<NoteModel, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });

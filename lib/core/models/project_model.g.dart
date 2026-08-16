@@ -68,24 +68,14 @@ int _projectModelEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.description;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.description.length * 3;
   {
     final value = object.image;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
   }
-  {
-    final value = object.title;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
 
@@ -107,10 +97,10 @@ ProjectModel _projectModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ProjectModel();
-  object.description = reader.readStringOrNull(offsets[0]);
+  object.description = reader.readString(offsets[0]);
   object.id = id;
   object.image = reader.readStringOrNull(offsets[1]);
-  object.title = reader.readStringOrNull(offsets[2]);
+  object.title = reader.readString(offsets[2]);
   return object;
 }
 
@@ -122,11 +112,11 @@ P _projectModelDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -229,26 +219,8 @@ extension ProjectModelQueryWhere
 extension ProjectModelQueryFilter
     on QueryBuilder<ProjectModel, ProjectModel, QFilterCondition> {
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
-      descriptionIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'description',
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
-      descriptionIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'description',
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
       descriptionEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -262,7 +234,7 @@ extension ProjectModelQueryFilter
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
       descriptionGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -278,7 +250,7 @@ extension ProjectModelQueryFilter
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
       descriptionLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -294,8 +266,8 @@ extension ProjectModelQueryFilter
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
       descriptionBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -587,26 +559,8 @@ extension ProjectModelQueryFilter
     });
   }
 
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
-      titleIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'title',
-      ));
-    });
-  }
-
-  QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
-      titleIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'title',
-      ));
-    });
-  }
-
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> titleEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -620,7 +574,7 @@ extension ProjectModelQueryFilter
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition>
       titleGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -635,7 +589,7 @@ extension ProjectModelQueryFilter
   }
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> titleLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -650,8 +604,8 @@ extension ProjectModelQueryFilter
   }
 
   QueryBuilder<ProjectModel, ProjectModel, QAfterFilterCondition> titleBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -992,7 +946,7 @@ extension ProjectModelQueryProperty
     });
   }
 
-  QueryBuilder<ProjectModel, String?, QQueryOperations> descriptionProperty() {
+  QueryBuilder<ProjectModel, String, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
     });
@@ -1004,7 +958,7 @@ extension ProjectModelQueryProperty
     });
   }
 
-  QueryBuilder<ProjectModel, String?, QQueryOperations> titleProperty() {
+  QueryBuilder<ProjectModel, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });

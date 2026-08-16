@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mo5y/core/providers/notes_provider.dart';
 import 'package:mo5y/core/providers/projects_provider.dart';
 import 'package:mo5y/core/providers/tasks_provider.dart';
-import 'package:mo5y/core/providers/tasks_stats_provider.dart';
 import 'package:mo5y/core/providers/transaction_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:mo5y/core/providers/profile_provider.dart';
@@ -32,7 +31,6 @@ class _SplashScreenState extends State<SplashScreen>
     context.read<NotesProvider>().listenToNotes();
     context.read<ProjectsProvider>().listenToProjects();
     context.read<TransactionProvider>().listenToTransactions();
-    context.read<TasksStatsProvider>().listenToStats();
     });
     _animationController = AnimationController(
       vsync: this,

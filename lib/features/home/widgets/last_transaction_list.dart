@@ -55,7 +55,7 @@ class LastTransactionList extends StatelessWidget {
                 ),
               )
             : Column(
-                spacing: 12,
+                spacing: 16,
                 children: List.generate(
                   transactionList.length,
                   (index) => MainTransactionContainer(

@@ -9,7 +9,7 @@ class TaskModel {
   Id id = Isar.autoIncrement;
   
   late String title;
-  String? description;
+  late String description;
   late DateTime endDate;
   DateTime? completedAt;
   bool isCompleted=false;

@@ -62,7 +62,7 @@ class _ChooseProjectState extends State<ChooseProject> {
                       Text(
                         widget.project == null
                             ? 'None'
-                            : widget.project!.title!,
+                            : widget.project!.title,
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                       IconButton(
@@ -119,7 +119,7 @@ class _ChooseProjectState extends State<ChooseProject> {
                                                 context,
                                               ).colorScheme.shadow,
                                         child: Text(
-                                          project.title!,
+                                          project.title,
                                           style: Theme.of(
                                             context,
                                           ).textTheme.bodyLarge,

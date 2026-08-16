@@ -16,7 +16,7 @@ class TaskTitle extends StatelessWidget {
                 context,
               ).textTheme.bodyLarge?.color?.withAlpha(150),
             )
-          : Theme.of(context).textTheme.titleSmall,
+          : Theme.of(context).textTheme.bodyLarge,
     );
   }
 }

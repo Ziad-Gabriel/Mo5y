@@ -1,7 +1,9 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'package:mo5y/core/controllers/note_controller.dart';
 import 'package:mo5y/core/models/note_model.dart';
+import 'package:mo5y/core/models/project_model.dart';
 import 'package:mo5y/core/services/note_service.dart';
 
 class NotesProvider extends ChangeNotifier {
@@ -26,6 +28,33 @@ class NotesProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     });
+  }
+
+  Future<bool> addNote({
+    required BuildContext context,
+    required String? title,
+    required String? content,
+    required ProjectModel? project,
+  }) async {
+    return await NoteController(
+      isar,
+    ).addNote(title: title, content: content, project: project);
+  }
+
+  Future<bool> updateNote({
+    required BuildContext context,
+    required int id,
+    required String? title,
+    required String? content,
+    required ProjectModel? project,
+  }) async {
+    return await NoteController(
+      isar,
+    ).updateNote(id: id, title: title, content: content, project: project);
+  }
+
+  Future<void> deleteNote({required int id})async{
+    return NoteController(isar).deleteNote(id: id);
   }
 
   @override

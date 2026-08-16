@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mo5y/core/providers/tasks_stats_provider.dart';
+import 'package:mo5y/core/providers/profile_provider.dart';
 import 'package:mo5y/core/utils/money_counter_formatter.dart';
 import 'package:mo5y/features/shared/main_container/main_container.dart';
 import 'package:provider/provider.dart';
@@ -9,10 +9,10 @@ class TaskStatics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final weekStats = context.watch<TasksStatsProvider>().getCurrentWeek;
-    final double ratio = weekStats.tasksAdded == 0
+    final weekStats = context.watch<ProfileProvider>().getStats;
+    final double ratio = weekStats[0] == 0
         ? 0
-        : weekStats.tasksCompleted / weekStats.tasksAdded;
+        : weekStats[1]! / weekStats[0]!;
     return MainContainer(
       duration: 0,
       curve: Curves.linear,
@@ -43,7 +43,11 @@ class TaskStatics extends StatelessWidget {
                 : Theme.of(context).colorScheme.primary,
             child: Icon(
               Icons.task_alt_rounded,
-              color: Theme.of(context).colorScheme.secondary.withRed(150),
+              color: ratio < 0.5
+                  ? Theme.of(context).colorScheme.secondary.withRed(150)
+                  : ratio < 0.85
+                  ? Theme.of(context).colorScheme.onSurface.withAlpha(80)
+                  : Theme.of(context).colorScheme.primary,
               size: 32,
             ),
           ),
@@ -52,7 +56,7 @@ class TaskStatics extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                weekStats.tasksAdded == 0
+                weekStats[0] == 0
                     ? '%0'
                     : '%${formatNumber(ratio * 100, true)}',
                 style: Theme.of(context).textTheme.titleMedium,

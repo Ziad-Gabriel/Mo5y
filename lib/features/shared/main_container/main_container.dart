@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class MainContainer extends StatelessWidget {
   final int duration;
   final Curve curve;
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
   final double vPadding;
   final double hPadding;
   final Color color;
@@ -30,8 +30,8 @@ class MainContainer extends StatelessWidget {
       width: width,
       padding: EdgeInsets.symmetric(vertical: vPadding, horizontal: hPadding),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface.withAlpha(150),
         borderRadius: BorderRadius.circular(12),
+        color: Theme.of(context).colorScheme.surface.withAlpha(150),
         boxShadow: [
           BoxShadow(color: color, blurRadius: 10, spreadRadius: 1),
           BoxShadow(color: color, blurRadius: 10, spreadRadius: 1),

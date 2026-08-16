@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:mo5y/features/add_note/view/add_note_view.dart';
 import 'package:mo5y/features/add_task/view/add_task_view.dart';
+import 'package:mo5y/features/add_transaction/view/add_transaction_view.dart';
 
 class MainFab extends StatelessWidget {
   const MainFab({super.key});
@@ -22,7 +24,12 @@ class MainFab extends StatelessWidget {
           child: Icon(Icons.note_add),
           label: 'Add Note',
           onTap: () {
-            // Handle add note action
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddNoteView(isNew: true),
+              ),
+            );
           },
         ),
         SpeedDialChild(
@@ -35,18 +42,21 @@ class MainFab extends StatelessWidget {
             );
           },
         ),
-        SpeedDialChild(
-          child: Icon(Icons.folder_open),
-          label: 'Add Project',
-          onTap: () {
-            // Handle add project action
-          },
-        ),
+        // SpeedDialChild(
+        //   child: Icon(Icons.folder_open),
+        //   label: 'Add Project',
+        //   onTap: () {
+        //     // Handle add project action
+        //   },
+        // ),
         SpeedDialChild(
           child: Icon(Icons.credit_card_rounded),
           label: 'Add Transaction',
           onTap: () {
-            // Handle add transaction action
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddTransactionView()),
+            );
           },
         ),
       ],

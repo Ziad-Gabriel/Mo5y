@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TextStyles {
-  static TextStyle titleStyle = GoogleFonts.barlowCondensed();
-  static TextStyle bodyStyle = GoogleFonts.inter();
+  static TextStyle titleStyle = TextStyle(fontFamily: 'BarlowCondensed');
+  static TextStyle bodyStyle = TextStyle(fontFamily: 'Inter');
 
   static TextTheme get appTextTheme => TextTheme(
     titleLarge: titleStyle.copyWith(

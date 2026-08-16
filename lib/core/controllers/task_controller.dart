@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:mo5y/core/models/project_model.dart';
 import 'package:mo5y/core/models/task_model.dart';
-import 'package:mo5y/core/services/stats_service.dart';
+import 'package:mo5y/core/providers/profile_provider.dart';
 import 'package:mo5y/core/services/task_service.dart';
+import 'package:provider/provider.dart';
 
 class TaskController {
   final Isar isar;
@@ -13,6 +15,7 @@ class TaskController {
     required String? description,
     required DateTime? endDate,
     required ProjectModel? project,
+    required BuildContext context
   }) async {
     if ((title == null || title.isEmpty) &&
         (description == null || description.isEmpty)) {
@@ -23,7 +26,7 @@ class TaskController {
     }
     TaskModel task = TaskModel()
       ..title = title!
-      ..description = description
+      ..description = description??''
       ..endDate =
           endDate ??
           DateTime(
@@ -35,29 +38,32 @@ class TaskController {
             59,
           ).add(const Duration(days: 1));
 
-    await TaskService(isar).addTask(task: task, project: project);
+    await TaskService(isar).addTask(task: task, project: project,context: context);
     return true;
   }
 
-  Future<void> completeToggle({required int id}) async {
+  Future<void> completeToggle({required int id,required BuildContext context,}) async {
     final task = await TaskService(isar).isar.taskModels.get(id);
     if (task == null) return;
-    await TaskService(isar).isar.writeTxn(() async {
       final updated = TaskModel()
         ..id = task.id
         ..title = task.title
         ..description = task.description
         ..endDate = task.endDate
         ..isCompleted = !task.isCompleted;
-
+      // ignore: use_build_context_synchronously
+      await context.read<ProfileProvider>().addCompletedCount(
+          isCompleted: updated.isCompleted
+        );
       if (updated.isCompleted) {
         updated.completedAt = DateTime.now();
       } else {
         updated.completedAt = null;
       }
+    await TaskService(isar).isar.writeTxn(() async {
       await TaskService(isar).isar.taskModels.put(updated);
     });
-    await StatsService(isar).incrementCompleted(undo: task.isCompleted);
+    
   }
 
   Future<void> deleteCompletedTasks() async {

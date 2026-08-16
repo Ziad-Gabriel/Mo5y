@@ -4,7 +4,6 @@ import 'package:mo5y/core/providers/notes_provider.dart';
 import 'package:mo5y/core/providers/profile_provider.dart';
 import 'package:mo5y/core/providers/projects_provider.dart';
 import 'package:mo5y/core/providers/tasks_provider.dart';
-import 'package:mo5y/core/providers/tasks_stats_provider.dart';
 import 'package:mo5y/core/providers/transaction_provider.dart';
 import 'package:mo5y/features/splash_screen/splash_screen.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,7 +13,6 @@ import 'package:mo5y/core/models/note_model.dart';
 import 'package:mo5y/core/models/project_model.dart';
 import 'package:mo5y/core/models/task_model.dart';
 import 'package:mo5y/core/models/transaction_model.dart';
-import 'package:mo5y/core/models/tasks_stats_model.dart';
 import 'package:mo5y/core/providers/main_widgets_index_provider.dart';
 import 'package:mo5y/core/themes/themes.dart';
 
@@ -27,7 +25,6 @@ Future<void> main() async {
     TaskModelSchema,
     NoteModelSchema,
     TransactionModelSchema,
-    TasksStatsModelSchema,
   ], directory: dir.path);
   runApp(
     MultiProvider(
@@ -39,7 +36,6 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => ProfileProvider(isar)),
         ChangeNotifierProvider(create: (context) => ProjectsProvider(isar)),
         ChangeNotifierProvider(create: (context) => TransactionProvider(isar)),
-        ChangeNotifierProvider(create: (context) => TasksStatsProvider(isar)),
       ],
       child: const MainApp(),
     ),

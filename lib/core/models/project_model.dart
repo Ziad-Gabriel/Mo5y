@@ -8,8 +8,8 @@ class ProjectModel {
   
   Id id = Isar.autoIncrement;
   
-  String? title;
-  String? description;
+  late String title;
+  late String description;
   String? image;
   
 

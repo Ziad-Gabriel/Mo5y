@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mo5y/core/models/task_model.dart';
 import 'package:mo5y/core/providers/tasks_provider.dart';
 import 'package:mo5y/features/shared/main_container/main_container.dart';
+import 'package:mo5y/features/tasks/widgets/tasks_list/content/task_description.dart';
 import 'package:mo5y/features/tasks/widgets/tasks_list/content/task_title.dart';
 import 'package:mo5y/features/tasks/widgets/tasks_list/content/task_end_date.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class _TasksListState extends State<TasksList> {
           child: MainContainer(
             duration: 850,
             curve: Curves.easeInOutBack,
-            height: 80,
+            height: null,
             width: double.infinity,
             vPadding: 0,
             hPadding: 2,
@@ -44,7 +45,7 @@ class _TasksListState extends State<TasksList> {
                 Checkbox(
                   value: task.isCompleted,
                   onChanged: (value) {
-                    context.read<TasksProvider>().completeToggle(id: task.id);
+                    context.read<TasksProvider>().completeToggle(id: task.id,context: context);
                   },
                 ),
                 Expanded(
@@ -57,6 +58,7 @@ class _TasksListState extends State<TasksList> {
                         title: task.title,
                         isCompleted: task.isCompleted,
                       ),
+                      TaskDescription(description: task.description),
                       const SizedBox(height: 8),
                       TaskEndDate(date: task.endDate),
                     ],

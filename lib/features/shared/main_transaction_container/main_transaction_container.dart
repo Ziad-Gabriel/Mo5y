@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mo5y/core/models/transaction_category_model.dart';
 import 'package:mo5y/core/models/transaction_model.dart';
 import 'package:mo5y/core/utils/date_formatter.dart';
+import 'package:mo5y/core/utils/money_counter_formatter.dart';
 import 'package:mo5y/features/shared/main_container/main_container.dart';
 
 class MainTransactionContainer extends StatelessWidget {
@@ -11,15 +12,17 @@ class MainTransactionContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 110,
+      height: 95,
       width: double.infinity,
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.only(left: 12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.shadow,
+        color: Theme.of(context).colorScheme.shadow.withAlpha(180),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.surface.withAlpha(120),
+            color: _transaction.isAdd
+                ? Theme.of(context).colorScheme.primary.withAlpha(120)
+                : Theme.of(context).colorScheme.secondary,
             blurRadius: 4,
             spreadRadius: 1,
           ),
@@ -27,7 +30,7 @@ class MainTransactionContainer extends StatelessWidget {
         border: Border.all(
           color: _transaction.isAdd
               ? Theme.of(context).colorScheme.primary.withAlpha(80)
-              : Theme.of(context).colorScheme.secondary.withAlpha(80),
+              : Theme.of(context).colorScheme.secondary.withAlpha(180),
         ),
       ),
       child: Row(
@@ -61,19 +64,32 @@ class MainTransactionContainer extends StatelessWidget {
                 ),
                 SizedBox(height: 12),
                 Text(
-                  customDateFormatter(date: _transaction.date,),
+                  customDateFormatter(date: _transaction.date),
                   style: Theme.of(context).textTheme.bodySmall,
                   maxLines: 1,
                 ),
               ],
             ),
           ),
-          SizedBox(
-            width: 80,
-            child: Text(
-              _transaction.amount.toString(),
-              style: Theme.of(context).textTheme.titleSmall,
-              maxLines: 1,
+          Container(
+            height: double.infinity,
+            width: 90,
+            decoration: BoxDecoration(
+              color: _transaction.isAdd
+                  ? Theme.of(context).colorScheme.primary.withAlpha(235)
+                  : Theme.of(context).colorScheme.secondary.withAlpha(180),
+              borderRadius: BorderRadius.horizontal(
+                left: Radius.circular(30),
+                right: Radius.circular(10),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                formatNumber(_transaction.amount, false),
+                style: Theme.of(context).textTheme.titleSmall,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ],

@@ -17,7 +17,11 @@ class TasksView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 4),
-        TopTaskContainer(tasksCount: pendingTasks.length),
+        TopTaskContainer(
+          tasksCount: pendingTasks
+              .where((task) => task.isCompleted == false)
+              .length,
+        ),
         SizedBox(height: 16),
         Text(
           "Tasks will delete after it's day",

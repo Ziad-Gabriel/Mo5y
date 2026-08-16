@@ -27,13 +27,26 @@ class TransactionProvider extends ChangeNotifier {
     _subscription = TransactionService(isar).getAllTransactions().listen((
       updatedTransactions,
     ) {
-      _transaction = updatedTransactions..sort((a, b) => a.date.compareTo(b.date));
+      _transaction = updatedTransactions
+        ..sort((a, b) => b.date.compareTo(a.date));
       _isLoading = false;
       notifyListeners();
     });
   }
 
-  Future<bool> addTransaction({required String? amount,required String? title,required bool isAdd, required TransactionCategory category,required BuildContext context})async{
-    return await TransactionController(isar).addTransaction(amount: amount, title: title, isAdd: isAdd, category: category, context: context);
+  Future<bool> addTransaction({
+    required String? amount,
+    required String? title,
+    required bool isAdd,
+    required TransactionCategory category,
+    required BuildContext context,
+  }) async {
+    return await TransactionController(isar).addTransaction(
+      amount: amount,
+      title: title,
+      isAdd: isAdd,
+      category: category,
+      context: context,
+    );
   }
 }

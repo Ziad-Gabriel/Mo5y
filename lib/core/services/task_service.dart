@@ -1,17 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 import 'package:mo5y/core/models/project_model.dart';
 import 'package:mo5y/core/models/task_model.dart';
-import 'package:mo5y/core/services/stats_service.dart';
+import 'package:mo5y/core/providers/profile_provider.dart';
+import 'package:provider/provider.dart';
 
 class TaskService {
   final Isar isar;
 
   TaskService(this.isar);
 
-  Future<void> addTask({required TaskModel task, ProjectModel? project}) async {
+  Future<void> addTask({required TaskModel task, ProjectModel? project,required BuildContext context}) async {
     if (project != null) task.project.value = project;
 
-      await StatsService(isar).incrementAdded();
+      await context.read<ProfileProvider>().addTaskCount();
     await isar.writeTxn(() async {
       await isar.taskModels.put(task);
       if (project != null) {

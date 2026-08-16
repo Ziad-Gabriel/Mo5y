@@ -5,8 +5,10 @@
         "javafx",
         "jvmargs",
         "Metaspace",
+        "opsz",
         "prefs",
-        "spiderman"
+        "spiderman",
+        "wght"
     ],
     "cmake.ignoreCMakeListsMissing": true,
     "java.configuration.updateBuildConfiguration": "automatic"

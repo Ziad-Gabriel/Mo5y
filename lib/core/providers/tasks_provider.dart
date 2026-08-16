@@ -14,8 +14,7 @@ class TasksProvider extends ChangeNotifier {
 
   List<TaskModel> _pendingTasks = [];
   List<TaskModel> get getPending => _pendingTasks;
-  List<TaskModel> _failedTasks = [];
-  List<TaskModel> get getFailed => _failedTasks;
+
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -33,12 +32,7 @@ class TasksProvider extends ChangeNotifier {
               .where((task) => !task.endDate.isBefore(DateTime.now()))
               .toList()
             ..sort((a, b) => a.endDate.compareTo(b.endDate));
-      _failedTasks = updatedTasks
-          .where(
-            (task) =>
-                task.endDate.isBefore(DateTime.now()) && !task.isCompleted,
-          )
-          .toList();
+      
       _isLoading = false;
       notifyListeners();
     });
@@ -49,17 +43,19 @@ class TasksProvider extends ChangeNotifier {
     required String? description,
     required DateTime endDate,
     required ProjectModel? project,
+    required BuildContext context
   }) async {
     return await TaskController(isar).addTask(
       title: title,
       description: description,
       endDate: endDate,
       project: project,
+      context: context
     );
   }
 
-  Future<void> completeToggle({required int id}) {
-    return TaskController(isar).completeToggle(id: id);
+  Future<void> completeToggle({required int id,required BuildContext context}) {
+    return TaskController(isar).completeToggle(id: id,context: context);
   }
 
   Future<void> dailyDeleteCompletedTasks(BuildContext context) async {

@@ -32,8 +32,18 @@ const ProfileModelSchema = CollectionSchema(
       name: r'lastCleanUp',
       type: IsarType.dateTime,
     ),
-    r'username': PropertySchema(
+    r'tasksAdded': PropertySchema(
       id: 3,
+      name: r'tasksAdded',
+      type: IsarType.long,
+    ),
+    r'tasksCompleted': PropertySchema(
+      id: 4,
+      name: r'tasksCompleted',
+      type: IsarType.long,
+    ),
+    r'username': PropertySchema(
+      id: 5,
       name: r'username',
       type: IsarType.string,
     )
@@ -71,7 +81,9 @@ void _profileModelSerialize(
   writer.writeDouble(offsets[0], object.balance);
   writer.writeBool(offsets[1], object.isLoggedIn);
   writer.writeDateTime(offsets[2], object.lastCleanUp);
-  writer.writeString(offsets[3], object.username);
+  writer.writeLong(offsets[3], object.tasksAdded);
+  writer.writeLong(offsets[4], object.tasksCompleted);
+  writer.writeString(offsets[5], object.username);
 }
 
 ProfileModel _profileModelDeserialize(
@@ -85,7 +97,9 @@ ProfileModel _profileModelDeserialize(
   object.id = id;
   object.isLoggedIn = reader.readBool(offsets[1]);
   object.lastCleanUp = reader.readDateTimeOrNull(offsets[2]);
-  object.username = reader.readString(offsets[3]);
+  object.tasksAdded = reader.readLong(offsets[3]);
+  object.tasksCompleted = reader.readLong(offsets[4]);
+  object.username = reader.readString(offsets[5]);
   return object;
 }
 
@@ -103,6 +117,10 @@ P _profileModelDeserializeProp<P>(
     case 2:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 3:
+      return (reader.readLong(offset)) as P;
+    case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -407,6 +425,118 @@ extension ProfileModelQueryFilter
   }
 
   QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      tasksAddedEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'tasksAdded',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      tasksAddedGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'tasksAdded',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      tasksAddedLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'tasksAdded',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      tasksAddedBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'tasksAdded',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      tasksCompletedEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'tasksCompleted',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      tasksCompletedGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'tasksCompleted',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      tasksCompletedLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'tasksCompleted',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      tasksCompletedBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'tasksCompleted',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
       usernameEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -589,6 +719,33 @@ extension ProfileModelQuerySortBy
     });
   }
 
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy> sortByTasksAdded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tasksAdded', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy>
+      sortByTasksAddedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tasksAdded', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy>
+      sortByTasksCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tasksCompleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy>
+      sortByTasksCompletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tasksCompleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy> sortByUsername() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'username', Sort.asc);
@@ -654,6 +811,33 @@ extension ProfileModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy> thenByTasksAdded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tasksAdded', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy>
+      thenByTasksAddedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tasksAdded', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy>
+      thenByTasksCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tasksCompleted', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy>
+      thenByTasksCompletedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'tasksCompleted', Sort.desc);
+    });
+  }
+
   QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy> thenByUsername() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'username', Sort.asc);
@@ -684,6 +868,19 @@ extension ProfileModelQueryWhereDistinct
   QueryBuilder<ProfileModel, ProfileModel, QDistinct> distinctByLastCleanUp() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastCleanUp');
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QDistinct> distinctByTasksAdded() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'tasksAdded');
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QDistinct>
+      distinctByTasksCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'tasksCompleted');
     });
   }
 
@@ -719,6 +916,18 @@ extension ProfileModelQueryProperty
       lastCleanUpProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastCleanUp');
+    });
+  }
+
+  QueryBuilder<ProfileModel, int, QQueryOperations> tasksAddedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'tasksAdded');
+    });
+  }
+
+  QueryBuilder<ProfileModel, int, QQueryOperations> tasksCompletedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'tasksCompleted');
     });
   }
 
