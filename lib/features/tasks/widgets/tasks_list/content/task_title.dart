@@ -10,7 +10,7 @@ class TaskTitle extends StatelessWidget {
     return Text(
       title,
       style: isCompleted
-          ? Theme.of(context).textTheme.titleSmall?.copyWith(
+          ? Theme.of(context).textTheme.bodyLarge?.copyWith(
               decoration: TextDecoration.lineThrough,
               color: Theme.of(
                 context,

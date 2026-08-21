@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mo5y/core/providers/transaction_provider.dart';
 import 'package:mo5y/features/shared/main_transaction_container/main_transaction_container.dart';
+import 'package:mo5y/features/transaction/view/transaction_view.dart';
 import 'package:provider/provider.dart';
 
 class LastTransactionList extends StatelessWidget {
@@ -12,6 +13,10 @@ class LastTransactionList extends StatelessWidget {
         .watch<TransactionProvider>()
         .getTransactions;
 
+    final lengthOfShownList = transactionList.length > 3
+        ? 3
+        : transactionList.length;
+
     return Column(
       children: [
         Row(
@@ -22,7 +27,10 @@ class LastTransactionList extends StatelessWidget {
               style: Theme.of(context).textTheme.titleSmall,
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TransactionView()),
+              ),
               child: Row(
                 children: [
                   Text(
@@ -57,7 +65,7 @@ class LastTransactionList extends StatelessWidget {
             : Column(
                 spacing: 16,
                 children: List.generate(
-                  transactionList.length,
+                  lengthOfShownList,
                   (index) => MainTransactionContainer(
                     transaction: transactionList[index],
                   ),

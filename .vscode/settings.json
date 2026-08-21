@@ -2,6 +2,7 @@
     "cSpell.words": [
         "allprojects",
         "Backlink",
+        "dists",
         "javafx",
         "jvmargs",
         "Metaspace",
@@ -11,5 +12,6 @@
         "wght"
     ],
     "cmake.ignoreCMakeListsMissing": true,
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "files.autoSave": "afterDelay"
 }

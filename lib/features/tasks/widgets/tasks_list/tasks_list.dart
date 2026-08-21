@@ -38,33 +38,39 @@ class _TasksListState extends State<TasksList> {
             vPadding: 0,
             hPadding: 2,
             color: task.isCompleted ? shadowColors[1] : shadowColors[0],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Checkbox(
-                  value: task.isCompleted,
-                  onChanged: (value) {
-                    context.read<TasksProvider>().completeToggle(id: task.id,context: context);
-                  },
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TaskTitle(
-                        title: task.title,
-                        isCompleted: task.isCompleted,
-                      ),
-                      TaskDescription(description: task.description),
-                      const SizedBox(height: 8),
-                      TaskEndDate(date: task.endDate),
-                    ],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Checkbox(
+                    value: task.isCompleted,
+                    onChanged: (value) {
+                      context.read<TasksProvider>().completeToggle(
+                        id: task.id,
+                        context: context,
+                      );
+                    },
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TaskTitle(
+                          title: task.title,
+                          isCompleted: task.isCompleted,
+                        ),
+                        TaskDescription(description: task.description),
+                        const SizedBox(height: 8),
+                        TaskEndDate(date: task.endDate),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );

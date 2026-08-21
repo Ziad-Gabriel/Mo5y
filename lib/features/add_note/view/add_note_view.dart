@@ -44,14 +44,14 @@ class _AddNoteViewState extends State<AddNoteView> {
     return PopScope(
       canPop: true,
       onPopInvokedWithResult: (bool didPop, Object? result) async {
-        if (didPop) return;
+        // if (didPop) return;
         if (widget.isNew) {
-        await context.read<NotesProvider>().addNote(
+          await context.read<NotesProvider>().addNote(
             context: context,
             title: titleController.text,
             content: noteController.text,
             project: project,
-        );
+          );
         } else {
           await context.read<NotesProvider>().updateNote(
             context: context,
